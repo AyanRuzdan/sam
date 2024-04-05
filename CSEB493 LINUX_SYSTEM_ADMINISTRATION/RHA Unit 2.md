@@ -44,7 +44,7 @@ The desktop environment is the GUI on a Linux system. To start a terminal in the
 
 # Execute Commands with the Bash Shell
 When you want to execute a command, simply write it in the terminal and press Enter.
-```bash
+```
 [user@host ~]$ whoami
 user
 ```
@@ -55,12 +55,58 @@ command1 output
 command1 output
 ```
 The `date`  command displays the current date and time. There are several modifiers that can be used to see different variations of date, such as month, day, date, time-zones etc.
-```bash
-[user@host ~]$ **`date`**
+```
+[user@host ~]$ date
 Sun Feb 27 08:32:42 PM EST 2022
-[user@host ~]$ **`date +%R`**
+[user@host ~]$ date +%R
 20:33
-[user@host ~]$ **`date +%x`**
+[user@host ~]$ date +%x
 02/27/2022
 ```
 The `passwd` command with no options changes the current user's password. To change the password, we first need to specify the original password for the account. By default it requires a strong amount. A super or privileged user can use the `passwd` command to change another user's password.
+```
+[user@host ~]$ passwd
+Changing password for user user.
+Current password: old_password
+New password: new_password
+Retype new password: new_password
+passwd: all authentication tokens updated successfully.
+```
+To view the contents of files we can use `cat` command.
+```
+[user@host ~]$ cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+...output omitted..
+```
+To display the contents of multiple files, we can use `cat` command with multiple file names without any separators
+```
+[user@host ~]$ cat file1 file2
+Hello World!
+Introduction to Linux commands.
+```
+The user can use the `less` command to display one page of content.
+The `head` and `tail` commands display the beginning and end of files, respectively. By default 10 lines are displayed but we can se the `-n 3` or any number to display that respective number of lines.
+```
+[user@host ~]$ head /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/spool/mail:/sbin/nologin
+operator:x:11:0:operator:/root:/sbin/nologin
+[user@host ~]$ tail -n 3 /etc/passwd
+gdm:x:42:42::/var/lib/gdm:/sbin/nologin
+gnome-initial-setup:x:980:978::/run/gnome-initial-setup/:/sbin/nologin
+dnsmasq:x:979:977:Dnsmasq DHCP and DNS server:/var/lib/dnsmasq:/sbin/nologin
+```
+The `wc` command gives the counts of lines, words, and characters in a file. We can use `-l`, `-w`, or `-c` options to display only the given number of lines, words, or characters, respectively.
+```
+[]
+```
