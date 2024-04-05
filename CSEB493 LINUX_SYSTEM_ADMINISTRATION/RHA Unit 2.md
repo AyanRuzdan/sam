@@ -39,3 +39,28 @@ usermod -L user01
 	1. Virtual Console
 8. Which term describes an interface that provides a display for output and a keyboard for input to a shell session?
 	1. Terminal
+# Introduction to the GNOME Desktop Environment
+The desktop environment is the GUI on a Linux system. To start a terminal in the desktop environment we can go to **Activities** overview, select `Terminal` from the dash. Or search `terminal` in the search field at the top of the **windows overview**. Or press the **Alt+F2** key combination to open the **Enter a Command** and enter `gnome-terminal`
+
+# Execute Commands with the Bash Shell
+When you want to execute a command, simply write it in the terminal and press Enter.
+```bash
+[user@host ~]$ whoami
+user
+```
+We can also write multiple commands at once using semicolons as separators
+```bash
+[user@host ~]$ command1 ; command2
+command1 output
+command1 output
+```
+The `date`  command displays the current date and time. There are several modifiers that can be used to see different variations of date, such as month, day, date, time-zones etc.
+```bash
+[user@host ~]$ **`date`**
+Sun Feb 27 08:32:42 PM EST 2022
+[user@host ~]$ **`date +%R`**
+20:33
+[user@host ~]$ **`date +%x`**
+02/27/2022
+```
+The `passwd` command with no options changes the current user's password. To change the password, we first need to specify the original password for the account. By default it requires a strong amount. A super or privileged user can use the `passwd` command to change another user's password.
