@@ -274,4 +274,102 @@ fi
 [user@host ~]$ systemctl is-active psacct > /dev/null 2>&1
 [user@host ~]$ if  [[ $? -ne 0 ]]; then sudo systemctl start psacct; fi
 ```
-You can further expand the if/then construct to take different set of actions. Use the if/then/else construct to accomplish this behaviour
+You can further expand the if/then construct to take different set of actions. Use the if/then/else construct to accomplish this behavior.
+```bash
+if <condition>; then
+<statement>
+...
+<statement>
+else
+<statement>
+...
+<statement>
+fi
+```
+
+```bash
+[user@host ~]$ systemctl is-active psacct > /dev/null 2>&1
+[user@host ~]$ if  [[ $? -ne 0 ]]; then \ sudo systemctl start psacct; \ else \ sudo systemctl stop psacct; \ fi
+```
+You can further expand the if/then/else construct to test more than one condition using elif.
+```bash
+if <condition>; then
+<statement>
+...
+<statement>
+elif <condition>; then
+<statement>
+...
+<statement>
+else
+<statement>
+...
+<statement>
+fi
+```
+
+```bash
+[user@host ~]$ systemctl is-active mariadb > /dev/null 2>&1
+[user@host ~]$ MARIADB_ACTIVE=$?
+[user@host ~]$ sudo systemctl is-active postgresql > /dev/null 2>&1
+[user@host ~]$ POSTGRESQL_ACTIVE=$?
+[user@host ~]$ if  [[ "$MARIADB_ACTIVE" -eq 0 ]]; then \ mysql; \ elif  [[ "$POSTGRESQL_ACTIVE" -eq 0 ]]; then \ psql; \ else \ sqlite3; \ fi
+```
+
+# GUIDED EXERCISE LOOPS AND CONDITIONALS
+```bash
+[student@workstation ~]$ lab start console-commands
+```
+
+```bash
+[student@workstation ~]$ ssh student@servera hostname
+servera.lab.example.com
+[student@workstation ~]$ ssh student@serverb hostname
+serverb.lab.example.com
+```
+
+```bash
+[student@workstation ~]$ for HOST in servera serverb do ssh student@${HOST} hostname done
+servera.lab.example.com
+serverb.lab.example.com
+```
+Create a shell script in the /home/student/bin directory to execute the same for loop
+```bash
+[student@workstation ~]$ mkdir ~/bin
+```
+Verify that the bin subdirectory of your home directory is in your PATH environment variable
+```bash
+[student@workstation ~]$ echo $PATH
+/home/student/.local/bin:`/home/student/bin`:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:/home/student/.venv/labs/bin
+```
+Create a shell script called printhostname.sh in the bin directory to perform the for loop
+```bash
+[student@workstation ~]$ vim ~/bin/printhostname.sh
+#!/usr/bin/bash
+#Execute for loop to print server hostname.
+for HOST in servera serverb
+do
+  ssh student@${HOST} hostname
+done
+exit 0
+```
+Give the script executable permission
+```bash
+[student@workstation ~]$ **`chmod +x ~/bin/printhostname.sh
+```
+Run the script from home directory
+```bash
+[student@workstation ~]$ printhostname.sh
+servera.lab.example.com
+serverb.lab.example.com
+```
+Verify the exit code of the script
+```bash
+[student@workstation ~]$ echo $?
+0
+```
+Finish
+```bash
+	[student@workstation ~]$ lab finish console-commands
+```
+Regular expressions provide a pattern matching mechanism to find specific content.
