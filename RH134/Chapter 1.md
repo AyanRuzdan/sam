@@ -59,3 +59,121 @@ Hello, world
 [user@host ~]$ cat hello.log
 ERROR: Houston, we have a problem.
 ```
+# GUIDED EXERCISE
+```bash
+[student@workstation ~]$ lab start console-write
+```
+Login into servera as student
+```bash
+[student@workstation ~]$ ssh student@servera
+..output omitted..
+[student@servera ~]$
+```
+Create and execute a simple bash script
+Use the vim commands to create firstscript.sh
+```bash
+[student@servera ~]$ vim firstscript.sh
+```
+Insert the following text and save the file.
+```bash
+#!/usr/bin/bash
+echo "This is my first bash script" > ~/output.txt
+echo "" >> ~/output.txt
+echo "#####################################################" >> ~/output.txt
+```
+Use the bash command to execute the script
+```bash
+[student@servera ~]$ bash firstscript.sh
+```
+Review the output file
+```bash
+[student@servera ~]$ cat output.txt
+This is my first bash script
+
+#####################################################
+```
+Add more commands to the firstscript.sh, execute it and review the output.
+Use vim to edit the firstscript.sh script
+```bash
+[student@servera ~]$ vim firstscript.sh
+```
+The following output shows the expected content of firstscript.sh
+```bash
+#!/usr/bin/bash
+#
+echo "This is my first bash script" > ~/output.txt
+echo "" >> ~/output.txt
+echo "#####################################################" >> ~/output.txt
+echo "LIST BLOCK DEVICES" >> ~/output.txt
+echo "" >> ~/output.txt
+lsblk >> ~/output.txt
+echo "" >> ~/output.txt
+echo "#####################################################" >> ~/output.txt
+echo "FILESYSTEM FREE SPACE STATUS" >> ~/output.txt
+echo "" >> ~/output.txt
+df -h >> ~/output.txt
+echo "#####################################################" >> ~/output.txt
+```
+Make the firscript.sh file executable by using the chmod command
+```bash
+[student@servera ~]$ chmod a+x firstscript.sh
+```
+Execute the firstscript.sh
+```bash
+[student@servera ~]$ ./firstscript.sh
+```
+Review the output file that the script generated
+```bash
+[student@servera ~]$ cat output.txt
+This is my first bash script
+
+#####################################################
+LIST BLOCK DEVICES
+
+NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+sr0     11:0    1  558K  0 rom
+vda    252:0    0   10G  0 disk
+├─vda1 252:1    0    1M  0 part
+├─vda2 252:2    0  200M  0 part /boot/efi
+├─vda3 252:3    0  500M  0 part /boot
+└─vda4 252:4    0  9.3G  0 part /
+vdb    252:16   0    5G  0 disk
+vdc    252:32   0    5G  0 disk
+vdd    252:48   0    5G  0 disk
+
+#####################################################
+FILESYSTEM FREE SPACE STATUS
+
+Filesystem      Size  Used Avail Use% Mounted on
+devtmpfs        844M     0  844M   0% /dev
+tmpfs           888M     0  888M   0% /dev/shm
+tmpfs           355M  9.4M  346M   3% /run
+/dev/vda4       9.4G  1.7G  7.7G  18% /
+/dev/vda3       495M  161M  335M  33% /boot
+/dev/vda2       200M  7.6M  193M   4% /boot/efi
+tmpfs           178M     0  178M   0% /run/user/1000
+#####################################################
+```
+Remove the exercise files and return to the workstation machine.
+Delete the firstscript.sh and output.txt files
+```bash
+[student@servera ~]$ **`rm firstscript.sh output.txt
+```
+Return to the workstation machine as the student user
+```bash
+[student@servera ~]$ exit
+logout
+Connection to servera closed.
+[student@workstation ~]$
+```
+Finally run this command to change the student use home directory
+```bash
+[student@workstation ~]$ lab finish console-write
+```
+Run repetitive tasks with for loops, and create conditional structures with if statements.
+The for loop is a bash looping construct to use for task iterations
+```bash
+for VARIABLE in LIST; do
+COMMAND VARIABLE
+done
+```
