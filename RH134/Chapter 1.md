@@ -177,3 +177,101 @@ for VARIABLE in LIST; do
 COMMAND VARIABLE
 done
 ```
+Example
+```bash
+[user@host ~]$ for HOST in host1 host2 host3; do echo $HOST; done
+host1
+host2
+host3
+[user@host ~]$ for HOST in host{1,2,3}; do echo $HOST; done
+host1
+host2
+host3
+[user@host ~]$ for HOST in host{1..3}; do echo $HOST; done
+host1
+host2
+host3
+[user@host ~]$ for FILE in file{a..c}; do ls $FILE; done
+filea
+fileb
+filec
+[user@host ~]$ for PACKAGE in $(rpm -qa | grep kernel); \
+do echo "$PACKAGE was installed on \
+$(date -d @$(rpm -q --qf "%{INSTALLTIME}\n" $PACKAGE))"; done
+kernel-tools-libs-5.14.0-70.2.1.el9_0.x86_64 was installed on Thu Mar 24 10:52:40 PM EDT 2022
+kernel-tools-5.14.0-70.2.1.el9_0.x86_64 was installed on Thu Mar 24 10:52:40 PM EDT 2022
+kernel-core-5.14.0-70.2.1.el9_0.x86_64 was installed on Thu Mar 24 10:52:46 PM EDT 2022
+kernel-modules-5.14.0-70.2.1.el9_0.x86_64 was installed on Thu Mar 24 10:52:47 PM EDT 2022
+kernel-5.14.0-70.2.1.el9_0.x86_64 was installed on Thu Mar 24 10:53:04 PM EDT 2022
+[user@host ~]$ for EVEN in $(seq 2 2 10); do echo "$EVEN"; done
+2
+4
+6
+8
+10
+```
+Use the exit command to immediately leave the script and skip processing the remainder of the script.
+An exit code of 0 represents a successful completion with no errors. All other nonzero values indicate an error exit code. You can retrieve the last exit code with the built in variable $?
+```bash
+[user@host bin]$ cat hello
+#!/usr/bin/bash
+echo "Hello, world"
+exit 0
+[user@host bin]$ ./hello
+Hello, world
+[user@host bin]$ echo $?
+0
+```
+You can verify the integrity of your scripts by using the Bash test command. All commands produce an exit code on completion. To see the exit status, view the $? variable immediately after executing the test command.
+```bash
+[user@host ~]$ test 1 -gt 0 ; echo $?
+0
+[user@host ~]$ test 0 -gt 1 ; echo $?
+1
+```
+Test using the Bash test command syntax `[ <TESTEXPRESSION> ]`  or `[[ <TESTEXPRESSION> ]]`, which provides features such as file name globbing and regex pattern matching.
+```bash
+[user@host ~]$ [[ 1 -eq 1 ]]; echo $?
+0
+[user@host ~]$ [[ 1 -ne 1 ]]; echo $?
+1
+[user@host ~]$ [[ 8 -gt 2 ]]; echo $?
+0
+[user@host ~]$ [[ 2 -ge 2 ]]; echo $?
+0
+[user@host ~]$ [[ 2 -lt 2 ]]; echo $?
+1
+[user@host ~]$ [[ 1 -lt 2 ]]; echo $?
+0
+```
+
+```bash
+[user@host ~]$ [[ abc = abc ]]; echo $?
+0
+[user@host ~]$ [[ abc == def ]]; echo $?
+1
+[user@host ~]$ [[ abc != def ]]; echo $?
+0
+```
+
+```bash
+[user@host ~]$ STRING=''; [[ -z "$STRING" ]]; echo $?
+0
+[user@host ~]$ STRING='abc'; [[ -n "$STRING" ]]; echo $?
+0
+```
+Space inside the brackets are mandatory because they separate the words and elements within the test expression.
+The simplest conditional structure is the if/then construct, with the following syntax
+```bash
+if<condition>; then
+<statement>
+...
+<statement>
+fi
+```
+
+```bash
+[user@host ~]$ systemctl is-active psacct > /dev/null 2>&1
+[user@host ~]$ if  [[ $? -ne 0 ]]; then sudo systemctl start psacct; fi
+```
+You can further expand the if/then construct to take different set of actions. Use the if/then/else construct to accomplish this behaviour
